@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills Radar</title>
-    <!-- Link to external CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Ensure the path is correct -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
 </head>
 <body>
     <header>
@@ -32,13 +32,10 @@
                 <li>Driving or Navigating</li>
             </ul>
         </section>
-        <!-- Container for radar chart -->
         <section id="radarChart">
             <canvas id="radarChartCanvas"></canvas>
         </section>
     </main>
-
-    <!-- Link to external JavaScript -->
-    <script src="app.js"></script>
+    <script src="app.js"></script> <!-- Ensure the path is correct -->
 </body>
 </html>
