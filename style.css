@@ -15,9 +15,14 @@ body {
 }
 
 #radar-chart-container {
-    width: 500px;
-    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 20px;
+}
+
+#radar-chart {
+    border: 1px solid #ccc; /* Add a border to the canvas for better visibility */
 }
 
 button {
