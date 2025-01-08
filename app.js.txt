@@ -1,9 +1,6 @@
-// Ensure the page is fully loaded before running the script
 window.onload = function() {
-    // Get the canvas element
     const ctx = document.getElementById('radarChartCanvas').getContext('2d');
 
-    // Sample data for radar chart
     const skillData = {
         labels: [
             'Effective Communication',
@@ -33,7 +30,6 @@ window.onload = function() {
         }]
     };
 
-    // Create a radar chart
     const radarChart = new Chart(ctx, {
         type: 'radar',
         data: skillData,
