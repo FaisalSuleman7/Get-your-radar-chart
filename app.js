@@ -68,21 +68,42 @@ function showRadarChart() {
                     max: 10
                 }
             }
-        }
+        });
     });
 }
 
 function generatePDF() {
     const canvas = document.getElementById('radar-chart');
-    const imgData = canvas.toDataURL('image/jpeg');
+    const imgData = canvas.toDataURL('image/png');
 
     const doc = new jsPDF();
-    doc.addImage(imgData, 'JPEG', 10, 10, 180, 180); // Add chart as image to PDF
+    doc.addImage(imgData, 'PNG', 10, 10, 180, 180); // Add chart as image to PDF
     doc.save('skills_chart.pdf');
 }
 
-document.getElementById('generate-btn').addEventListener('click', generatePDF);
+function generateJPEG() {
+    const canvas = document.getElementById('radar-chart');
+    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'skills_chart.jpg';
+    link.click();
+}
+
+document.getElementById('generate-btn').addEventListener('click', function() {
+    const saveOption = document.getElementById('save-format').value;
+    if (saveOption === 'pdf') {
+        generatePDF();
+    } else if (saveOption === 'jpeg') {
+        generateJPEG();
+    }
+});
+
+document.getElementById('next-btn').addEventListener('click', showSkill); // Add event listener to next button
+
+// Initially hide the generate button and save options
+document.getElementById('generate-btn').style.display = 'none';
+document.getElementById('save-options').style.display = 'none';
 
 showSkill();
-setInterval(showSkill, 2000); // Show each skill every 2 seconds
-

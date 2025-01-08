@@ -11,17 +11,17 @@
 <body>
 
     <div id="skills-list"></div>
+    <button id="next-btn">Next</button> <!-- Next button -->
     <button id="generate-btn" style="display:none;">Generate Spider Chart</button>
 
     <div id="chart-container">
         <canvas id="radar-chart" width="500" height="500"></canvas>
     </div>
 
-    <div id="save-options">
+    <div id="save-options" style="display:none;">
         <label for="save-format">Save As:</label>
         <select id="save-format">
             <option value="pdf">PDF</option>
-            <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
         </select>
         <button id="save-btn">Save</button>
