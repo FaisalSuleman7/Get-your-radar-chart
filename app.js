@@ -19,6 +19,7 @@ const skills = [
 let skillScores = Array(skills.length).fill(5);  // Default value of 5 for each skill
 let chartGenerated = false;
 
+// Function to display the skills with sliders
 function showSkills() {
     const skillsListContainer = document.getElementById('skills-list');
     skillsListContainer.innerHTML = ''; // Clear the list before rendering
@@ -38,13 +39,17 @@ function showSkills() {
         slider.addEventListener('input', () => {
             document.getElementById(`score-${index}`).textContent = slider.value;
             skillScores[index] = slider.value;
+            if (chartGenerated) {
+                showRadarChart(); // Update the chart immediately when slider changes
+            }
         });
     });
 
-    // Show the generate chart button after skills are loaded
-    document.getElementById('generate-btn').style.display = 'block';
+    // Generate the chart with default values once the skills are shown
+    showRadarChart();
 }
 
+// Function to generate the radar chart
 function showRadarChart() {
     const ctx = document.getElementById('radar-chart').getContext('2d');
     const radarData = {
@@ -58,7 +63,11 @@ function showRadarChart() {
         }]
     };
 
-    const radarChart = new Chart(ctx, {
+    if (window.radarChart) {
+        window.radarChart.destroy();  // Destroy the previous chart before generating a new one
+    }
+
+    window.radarChart = new Chart(ctx, {
         type: 'radar',
         data: radarData,
         options: {
@@ -68,13 +77,14 @@ function showRadarChart() {
                     max: 10
                 }
             }
-        });
+        }
     });
 
     chartGenerated = true; // Mark chart as generated
     document.getElementById('save-options').style.display = 'block'; // Show save options after chart is generated
 }
 
+// Function to generate PDF
 function generatePDF() {
     const canvas = document.getElementById('radar-chart');
     const imgData = canvas.toDataURL('image/png');
@@ -84,6 +94,7 @@ function generatePDF() {
     doc.save('skills_chart.pdf');
 }
 
+// Function to generate JPEG
 function generateJPEG() {
     const canvas = document.getElementById('radar-chart');
     const imgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -94,6 +105,7 @@ function generateJPEG() {
     link.click();
 }
 
+// Function to generate PNG
 function generatePNG() {
     const canvas = document.getElementById('radar-chart');
     const imgData = canvas.toDataURL('image/png');
@@ -104,15 +116,7 @@ function generatePNG() {
     link.click();
 }
 
-// Event listeners for buttons
-document.getElementById('next-btn').addEventListener('click', showSkills);
-
-document.getElementById('generate-btn').addEventListener('click', function () {
-    if (chartGenerated) {
-        showRadarChart();
-    }
-});
-
+// Event listeners for the save options
 document.getElementById('save-btn').addEventListener('click', function () {
     const saveOption = document.getElementById('save-format').value;
     if (saveOption === 'pdf') {
@@ -124,5 +128,5 @@ document.getElementById('save-btn').addEventListener('click', function () {
     }
 });
 
-// Show the first skill
+// Show skills and generate the initial chart
 showSkills();
