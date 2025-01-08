@@ -1,0 +1,39 @@
+// List of skills
+const skills = [
+    'Effective Communication', 'Financial Literacy', 'Time Management', 'Critical Thinking',
+    'Emotional Regulation', 'Conflict Resolution', 'Basic First Aid', 'Self-Defense', 
+    'Basic Cooking', 'Digital Literacy', 'Networking', 'Gardening', 'Household Repairs', 
+    'Sewing', 'Driving'
+];
+
+// Function to display skills
+const skillsContainer = document.getElementById('skills-container');
+skills.forEach(skill => {
+    const skillElement = document.createElement('p');
+    skillElement.textContent = skill;
+    skillsContainer.appendChild(skillElement);
+});
+
+// Creating the radar chart
+const ctx = document.getElementById('skills-chart').getContext('2d');
+const skillsChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+        labels: skills,
+        datasets: [{
+            label: 'Skill Level',
+            data: Array(15).fill(3),  // Placeholder data for radar chart
+            backgroundColor: 'rgba(34, 193, 195, 0.2)',
+            borderColor: 'rgba(34, 193, 195, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scale: {
+            ticks: {
+                beginAtZero: true,
+                max: 5
+            }
+        }
+    }
+});

@@ -1,0 +1,24 @@
+/* Simple styling */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+#skills-container {
+    margin-bottom: 20px;
+}
+
+canvas {
+    width: 100%;
+    height: 300px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
