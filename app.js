@@ -100,10 +100,12 @@ document.getElementById('generate-btn').addEventListener('click', function() {
     }
 });
 
-document.getElementById('next-btn').addEventListener('click', showSkill); // Add event listener to next button
-
 // Initially hide the generate button and save options
 document.getElementById('generate-btn').style.display = 'none';
 document.getElementById('save-options').style.display = 'none';
 
+// Add the first skill when the page loads
 showSkill();
+
+// Add event listener to next button
+document.getElementById('next-btn').addEventListener('click', showSkill);
