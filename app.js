@@ -17,18 +17,31 @@ const skills = [
 ];
 
 let currentSkillIndex = 0;
+let skillScores = new Array(skills.length).fill(5); // Default score
 
 function showSkill() {
     if (currentSkillIndex < skills.length) {
         const skill = skills[currentSkillIndex];
         const skillItem = document.createElement('div');
         skillItem.classList.add('skill-item');
-        skillItem.innerHTML = `<h3>${skill.skill}</h3><p>${skill.description}</p>`;
+        skillItem.innerHTML = `
+            <h3>${skill.skill}</h3>
+            <p>${skill.description}</p>
+            <input type="range" min="1" max="10" value="${skillScores[currentSkillIndex]}" class="slider" id="slider-${currentSkillIndex}" />
+            <span id="score-${currentSkillIndex}">${skillScores[currentSkillIndex]}</span>
+        `;
         document.getElementById('skills-list').appendChild(skillItem);
+        document.getElementById(`slider-${currentSkillIndex}`).addEventListener('input', (e) => updateSkillScore(e, currentSkillIndex));
         currentSkillIndex++;
     } else {
         showRadarChart();
     }
+}
+
+function updateSkillScore(event, index) {
+    skillScores[index] = parseInt(event.target.value);
+    document.getElementById(`score-${index}`).textContent = skillScores[index];
+    showRadarChart(); // Re-render the radar chart
 }
 
 function showRadarChart() {
@@ -37,26 +50,47 @@ function showRadarChart() {
         labels: skills.map(skill => skill.skill),
         datasets: [{
             label: 'Skills Proficiency',
-            data: Array(skills.length).fill(5), // Example proficiency level (scale of 1-5)
+            data: skillScores,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
         }]
     };
     
-    const radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: radarData,
-        options: {
-            scale: {
-                ticks: {
-                    beginAtZero: true,
-                    max: 5
+    if (window.radarChart) {
+        window.radarChart.data = radarData;
+        window.radarChart.update(); // Update the chart smoothly
+    } else {
+        window.radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: radarData,
+            options: {
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        max: 10
+                    }
                 }
             }
-        }
+        });
+    }
+}
+
+function downloadImage() {
+    html2canvas(document.getElementById('radar-chart')).then((canvas) => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'radar-chart.png';
+        link.click();
     });
 }
 
+function downloadPDF() {
+    const element = document.getElementById('radar-chart');
+    html2pdf().from(element).save();
+}
+
+document.getElementById('download-btn').addEventListener('click', downloadImage);
+document.getElementById('download-pdf-btn').addEventListener('click', downloadPDF);
+
 showSkill();
-setInterval(showSkill, 2000); // Show each skill every 2 seconds
