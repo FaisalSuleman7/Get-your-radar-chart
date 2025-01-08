@@ -16,34 +16,33 @@ const skills = [
     { skill: "Driving or Navigating", description: "Enabling oneself to provide help to others or fulfill responsibilities." },
 ];
 
-let currentSkillIndex = 0;
-let skillScores = Array(skills.length).fill(0);
+let skillScores = Array(skills.length).fill(5);  // Default value of 5 for each skill
+let chartGenerated = false;
 
-function showSkill() {
-    if (currentSkillIndex < skills.length) {
-        const skill = skills[currentSkillIndex];
+function showSkills() {
+    const skillsListContainer = document.getElementById('skills-list');
+    skillsListContainer.innerHTML = ''; // Clear the list before rendering
+
+    skills.forEach((skill, index) => {
         const skillItem = document.createElement('div');
         skillItem.classList.add('skill-item');
         skillItem.innerHTML = `
-            <h3>Skill ${currentSkillIndex + 1}: ${skill.skill}</h3>
+            <h3>Skill ${index + 1}: ${skill.skill}</h3>
             <p>${skill.description}</p>
-            <input type="range" id="slider-${currentSkillIndex}" min="1" max="10" value="5" class="slider">
-            <span id="score-${currentSkillIndex}">5</span>
+            <input type="range" id="slider-${index}" min="1" max="10" value="5" class="slider">
+            <span id="score-${index}">5</span>
         `;
-        document.getElementById('skills-list').appendChild(skillItem);
+        skillsListContainer.appendChild(skillItem);
 
-        const slider = document.getElementById(`slider-${currentSkillIndex}`);
+        const slider = document.getElementById(`slider-${index}`);
         slider.addEventListener('input', () => {
-            document.getElementById(`score-${currentSkillIndex}`).textContent = slider.value;
-            skillScores[currentSkillIndex] = slider.value;
+            document.getElementById(`score-${index}`).textContent = slider.value;
+            skillScores[index] = slider.value;
         });
+    });
 
-        currentSkillIndex++;
-    } else {
-        showRadarChart();
-        document.getElementById('generate-btn').style.display = 'block'; // Show generate button after all skills
-        document.getElementById('next-btn').style.display = 'none'; // Hide next button after all skills
-    }
+    // Show the generate chart button after skills are loaded
+    document.getElementById('generate-btn').style.display = 'block';
 }
 
 function showRadarChart() {
@@ -71,6 +70,9 @@ function showRadarChart() {
             }
         });
     });
+
+    chartGenerated = true; // Mark chart as generated
+    document.getElementById('save-options').style.display = 'block'; // Show save options after chart is generated
 }
 
 function generatePDF() {
@@ -92,22 +94,35 @@ function generateJPEG() {
     link.click();
 }
 
-// Initially hide the generate button and save options
-document.getElementById('generate-btn').style.display = 'none';
-document.getElementById('save-options').style.display = 'none';
+function generatePNG() {
+    const canvas = document.getElementById('radar-chart');
+    const imgData = canvas.toDataURL('image/png');
 
-// Add the first skill when the page loads
-showSkill();
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'skills_chart.png';
+    link.click();
+}
 
-// Add event listener to next button
-document.getElementById('next-btn').addEventListener('click', showSkill);
+// Event listeners for buttons
+document.getElementById('next-btn').addEventListener('click', showSkills);
 
-// Add event listener to generate button
 document.getElementById('generate-btn').addEventListener('click', function () {
+    if (chartGenerated) {
+        showRadarChart();
+    }
+});
+
+document.getElementById('save-btn').addEventListener('click', function () {
     const saveOption = document.getElementById('save-format').value;
     if (saveOption === 'pdf') {
         generatePDF();
     } else if (saveOption === 'jpeg') {
         generateJPEG();
+    } else if (saveOption === 'png') {
+        generatePNG();
     }
 });
+
+// Show the first skill
+showSkills();
