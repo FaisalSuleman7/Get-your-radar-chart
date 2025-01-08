@@ -42,6 +42,7 @@ function showSkill() {
     } else {
         showRadarChart();
         document.getElementById('generate-btn').style.display = 'block'; // Show generate button after all skills
+        document.getElementById('next-btn').style.display = 'none'; // Hide next button after all skills
     }
 }
 
@@ -91,15 +92,6 @@ function generateJPEG() {
     link.click();
 }
 
-document.getElementById('generate-btn').addEventListener('click', function() {
-    const saveOption = document.getElementById('save-format').value;
-    if (saveOption === 'pdf') {
-        generatePDF();
-    } else if (saveOption === 'jpeg') {
-        generateJPEG();
-    }
-});
-
 // Initially hide the generate button and save options
 document.getElementById('generate-btn').style.display = 'none';
 document.getElementById('save-options').style.display = 'none';
@@ -109,3 +101,13 @@ showSkill();
 
 // Add event listener to next button
 document.getElementById('next-btn').addEventListener('click', showSkill);
+
+// Add event listener to generate button
+document.getElementById('generate-btn').addEventListener('click', function () {
+    const saveOption = document.getElementById('save-format').value;
+    if (saveOption === 'pdf') {
+        generatePDF();
+    } else if (saveOption === 'jpeg') {
+        generateJPEG();
+    }
+});
