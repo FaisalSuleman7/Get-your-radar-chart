@@ -1,39 +1,54 @@
-// List of skills
-const skills = [
-    'Effective Communication', 'Financial Literacy', 'Time Management', 'Critical Thinking',
-    'Emotional Regulation', 'Conflict Resolution', 'Basic First Aid', 'Self-Defense', 
-    'Basic Cooking', 'Digital Literacy', 'Networking', 'Gardening', 'Household Repairs', 
-    'Sewing', 'Driving'
-];
+// Ensure the page is fully loaded before running the script
+window.onload = function() {
+    // Get the canvas element
+    const ctx = document.getElementById('radarChartCanvas').getContext('2d');
 
-// Function to display skills
-const skillsContainer = document.getElementById('skills-container');
-skills.forEach(skill => {
-    const skillElement = document.createElement('p');
-    skillElement.textContent = skill;
-    skillsContainer.appendChild(skillElement);
-});
-
-// Creating the radar chart
-const ctx = document.getElementById('skills-chart').getContext('2d');
-const skillsChart = new Chart(ctx, {
-    type: 'radar',
-    data: {
-        labels: skills,
+    // Sample data for radar chart
+    const skillData = {
+        labels: [
+            'Effective Communication',
+            'Financial Literacy',
+            'Time Management',
+            'Critical Thinking',
+            'Emotional Regulation',
+            'Conflict Resolution',
+            'Basic First Aid',
+            'Self-Defense',
+            'Basic Cooking',
+            'Digital Literacy',
+            'Networking',
+            'Gardening or Growing Plants',
+            'Household Repairs',
+            'Sewing or Basic Clothing Repairs',
+            'Driving or Navigating'
+        ],
         datasets: [{
-            label: 'Skill Level',
-            data: Array(15).fill(3),  // Placeholder data for radar chart
-            backgroundColor: 'rgba(34, 193, 195, 0.2)',
-            borderColor: 'rgba(34, 193, 195, 1)',
+            label: 'Skill Proficiency',
+            data: [
+                7, 8, 6, 8, 9, 7, 5, 6, 6, 9, 7, 6, 5, 4, 8
+            ],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
-    },
-    options: {
-        scale: {
-            ticks: {
-                beginAtZero: true,
-                max: 5
+    };
+
+    // Create a radar chart
+    const radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: skillData,
+        options: {
+            scales: {
+                r: {
+                    min: 0,
+                    max: 10
+                }
+            },
+            elements: {
+                line: {
+                    tension: 0.3
+                }
             }
         }
-    }
-});
+    });
+};

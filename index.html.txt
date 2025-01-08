@@ -3,15 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skills Website</title>
+    <title>Skills Radar</title>
+    <!-- Link to external CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>15 Life-Changing Skills Everyone Must Learn</h1>
-    <div id="skills-container">
-        <!-- Skills will appear here -->
-    </div>
-    <canvas id="skills-chart"></canvas>
+    <header>
+        <h1>Welcome to the Skills Radar</h1>
+    </header>
+    <main>
+        <section id="skills">
+            <h2>Life-Changing Skills Everyone Must Learn</h2>
+            <ul>
+                <li>Effective Communication</li>
+                <li>Financial Literacy</li>
+                <li>Time Management</li>
+                <li>Critical Thinking</li>
+                <li>Emotional Regulation</li>
+                <li>Conflict Resolution</li>
+                <li>Basic First Aid</li>
+                <li>Self-Defense</li>
+                <li>Basic Cooking</li>
+                <li>Digital Literacy</li>
+                <li>Networking</li>
+                <li>Gardening or Growing Plants</li>
+                <li>Household Repairs</li>
+                <li>Sewing or Basic Clothing Repairs</li>
+                <li>Driving or Navigating</li>
+            </ul>
+        </section>
+        <!-- Container for radar chart -->
+        <section id="radarChart">
+            <canvas id="radarChartCanvas"></canvas>
+        </section>
+    </main>
+
+    <!-- Link to external JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
