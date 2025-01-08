@@ -17,11 +17,8 @@ const skills = [
 ];
 
 let currentSkillIndex = 0;
-const skillScores = new Array(skills.length).fill(5); // Default score (5)
 
 function showSkill() {
-    const skillsContainer = document.getElementById('skills-container');
-
     if (currentSkillIndex < skills.length) {
         const skill = skills[currentSkillIndex];
         const skillItem = document.createElement('div');
@@ -30,34 +27,27 @@ function showSkill() {
             <h3>Skill ${currentSkillIndex + 1}: ${skill.skill}</h3>
             <p>${skill.description}</p>
             <input type="range" min="1" max="10" value="5" class="slider" id="slider-${currentSkillIndex}">
-            <p>Score: <span id="score-${currentSkillIndex}">5</span></p>
         `;
-        skillsContainer.appendChild(skillItem);
-
-        document.getElementById(`slider-${currentSkillIndex}`).addEventListener('input', function () {
-            const score = this.value;
-            document.getElementById(`score-${currentSkillIndex}`).textContent = score;
-            skillScores[currentSkillIndex] = score; // Update skill score
-        });
-
+        document.getElementById('skills-list').appendChild(skillItem);
         currentSkillIndex++;
-        if (currentSkillIndex >= skills.length) {
-            document.getElementById('generate-chart-button').style.display = 'inline-block';
-        }
+    } else {
+        document.getElementById('generate-chart-button').style.display = 'block';
     }
 }
 
-document.getElementById('next-button').addEventListener('click', showSkill);
-
-document.getElementById('generate-chart-button').addEventListener('click', generateSpiderChart);
-
 function generateSpiderChart() {
+    const scores = [];
+    for (let i = 0; i < skills.length; i++) {
+        const slider = document.getElementById(`slider-${i}`);
+        scores.push(slider.value);
+    }
+
     const ctx = document.getElementById('radar-chart').getContext('2d');
     const radarData = {
         labels: skills.map(skill => skill.skill),
         datasets: [{
             label: 'Skills Proficiency',
-            data: skillScores, // Use the scores selected by the user
+            data: scores, // User-selected scores
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
@@ -68,47 +58,48 @@ function generateSpiderChart() {
         type: 'radar',
         data: radarData,
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scale: {
                 ticks: {
                     beginAtZero: true,
                     max: 10,
                     stepSize: 1
+                },
+                angleLines: {
+                    color: 'rgba(255, 99, 132, 0.2)'
                 }
             },
-            responsive: true,
-            maintainAspectRatio: false
+            elements: {
+                line: {
+                    tension: 0.3
+                }
+            }
         }
     });
 
+    // Show the spider chart
     document.getElementById('radar-chart-container').style.display = 'block';
-    document.getElementById('save-options-container').style.display = 'inline-block'; // Show save options after generating the chart
+    document.getElementById('generate-chart-button').style.display = 'none';
+    document.getElementById('save-options-container').style.display = 'block';
 }
 
-document.getElementById('save-button').addEventListener('click', () => {
-    const saveOption = document.getElementById('save-options').value;
+function saveChart() {
+    const saveOption = document.getElementById('save-option').value;
     const canvas = document.getElementById('radar-chart');
 
     if (saveOption === 'pdf') {
-        saveAsPDF(canvas);
-    } else if (saveOption === 'png' || saveOption === 'jpeg') {
-        saveAsImage(canvas, saveOption);
+        // Use jsPDF to save as PDF
+        const doc = new jsPDF();
+        doc.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10, 180, 180);
+        doc.save('skills-radar-chart.pdf');
+    } else {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL(`image/${saveOption}`);
+        link.download = `skills-radar-chart.${saveOption}`;
+        link.click();
     }
-});
-
-function saveAsPDF(canvas) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4');
-    const imgData = canvas.toDataURL('image/jpeg');
-    doc.addImage(imgData, 'JPEG', 10, 10, 180, 180);
-    doc.save('skill-radar.pdf');
 }
 
-function saveAsImage(canvas, format) {
-    const imgData = canvas.toDataURL(`image/${format}`);
-    const link = document.createElement('a');
-    link.href = imgData;
-    link.download = `skill-radar.${format}`;
-    link.click();
-}
-
-showSkill(); // Show the first skill on page load
+showSkill();
+setInterval(showSkill, 3000); // Show each skill every 3 seconds

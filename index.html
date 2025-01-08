@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill Radar</title>
+    <title>Skill Radar Chart</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="skills-container"></div>
-    <button id="next-button">Next</button>
-    <button id="generate-chart-button" style="display: none;">Generate Spider Chart</button>
 
-    <!-- Radar Chart Container -->
-    <div id="radar-chart-container" style="display: none; margin-top: 20px;">
-        <canvas id="radar-chart" width="500" height="500"></canvas>
+    <h1>Rate Your Skills</h1>
+
+    <div id="skills-list"></div>
+
+    <button id="generate-chart-button" onclick="generateSpiderChart()">Generate Spider Chart</button>
+
+    <div id="radar-chart-container">
+        <canvas id="radar-chart"></canvas>
     </div>
 
-    <!-- Save Options Container -->
-    <div id="save-options-container" style="display: none; margin-top: 20px;">
-        <label for="save-options">Save As:</label>
-        <select id="save-options">
+    <div id="save-options-container" style="display: none;">
+        <label for="save-option">Save As: </label>
+        <select id="save-option">
             <option value="pdf">PDF</option>
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
         </select>
-        <button id="save-button">Save</button>
+        <button id="save-button" onclick="saveChart()">Save</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

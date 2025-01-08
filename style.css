@@ -1,39 +1,40 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    text-align: center;
     padding: 20px;
 }
 
-#skills-container {
-    margin-bottom: 20px;
+h1 {
+    font-size: 2em;
 }
 
 .skill-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-#radar-chart-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+input[type="range"] {
+    width: 80%;
+    margin-top: 10px;
+}
+
+#generate-chart-button {
     margin-top: 20px;
 }
 
+#radar-chart-container {
+    width: 595px; /* A4 width */
+    height: 842px; /* A4 height */
+    margin: 20px auto;
+    border: 2px solid #ccc;
+    display: none;
+}
+
 #radar-chart {
-    border: 1px solid #ccc; /* Add a border to the canvas for better visibility */
-}
-
-button {
-    margin-top: 10px;
-    padding: 10px;
-}
-
-#save-options {
-    margin-right: 10px;
+    width: 100%;
+    height: 100%;
 }
 
 #save-options-container {
     margin-top: 20px;
+    text-align: center;
 }
