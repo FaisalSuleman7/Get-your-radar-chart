@@ -4,31 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skill Radar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Rate Your Skills</h1>
-
     <div id="skills-list"></div>
+    <button id="generate-btn" style="display:none;">Generate Spider Chart</button>
 
-    <button id="generate-chart-button" onclick="generateSpiderChart()">Generate Spider Chart</button>
-
-    <div id="radar-chart-container">
-        <canvas id="radar-chart"></canvas>
+    <div id="chart-container">
+        <canvas id="radar-chart" width="500" height="500"></canvas>
     </div>
 
-    <div id="save-options-container" style="display: none;">
-        <label for="save-option">Save As: </label>
-        <select id="save-option">
+    <div id="save-options">
+        <label for="save-format">Save As:</label>
+        <select id="save-format">
             <option value="pdf">PDF</option>
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
         </select>
-        <button id="save-button" onclick="saveChart()">Save</button>
+        <button id="save-btn">Save</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

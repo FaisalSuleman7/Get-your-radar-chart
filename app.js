@@ -17,6 +17,7 @@ const skills = [
 ];
 
 let currentSkillIndex = 0;
+let skillScores = Array(skills.length).fill(0);
 
 function showSkill() {
     if (currentSkillIndex < skills.length) {
@@ -26,28 +27,31 @@ function showSkill() {
         skillItem.innerHTML = `
             <h3>Skill ${currentSkillIndex + 1}: ${skill.skill}</h3>
             <p>${skill.description}</p>
-            <input type="range" min="1" max="10" value="5" class="slider" id="slider-${currentSkillIndex}">
+            <input type="range" id="slider-${currentSkillIndex}" min="1" max="10" value="5" class="slider">
+            <span id="score-${currentSkillIndex}">5</span>
         `;
         document.getElementById('skills-list').appendChild(skillItem);
+
+        const slider = document.getElementById(`slider-${currentSkillIndex}`);
+        slider.addEventListener('input', () => {
+            document.getElementById(`score-${currentSkillIndex}`).textContent = slider.value;
+            skillScores[currentSkillIndex] = slider.value;
+        });
+
         currentSkillIndex++;
     } else {
-        document.getElementById('generate-chart-button').style.display = 'block';
+        showRadarChart();
+        document.getElementById('generate-btn').style.display = 'block'; // Show generate button after all skills
     }
 }
 
-function generateSpiderChart() {
-    const scores = [];
-    for (let i = 0; i < skills.length; i++) {
-        const slider = document.getElementById(`slider-${i}`);
-        scores.push(slider.value);
-    }
-
+function showRadarChart() {
     const ctx = document.getElementById('radar-chart').getContext('2d');
     const radarData = {
         labels: skills.map(skill => skill.skill),
         datasets: [{
             label: 'Skills Proficiency',
-            data: scores, // User-selected scores
+            data: skillScores,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
@@ -58,48 +62,27 @@ function generateSpiderChart() {
         type: 'radar',
         data: radarData,
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
             scale: {
                 ticks: {
                     beginAtZero: true,
-                    max: 10,
-                    stepSize: 1
-                },
-                angleLines: {
-                    color: 'rgba(255, 99, 132, 0.2)'
-                }
-            },
-            elements: {
-                line: {
-                    tension: 0.3
+                    max: 10
                 }
             }
         }
     });
-
-    // Show the spider chart
-    document.getElementById('radar-chart-container').style.display = 'block';
-    document.getElementById('generate-chart-button').style.display = 'none';
-    document.getElementById('save-options-container').style.display = 'block';
 }
 
-function saveChart() {
-    const saveOption = document.getElementById('save-option').value;
+function generatePDF() {
     const canvas = document.getElementById('radar-chart');
+    const imgData = canvas.toDataURL('image/jpeg');
 
-    if (saveOption === 'pdf') {
-        // Use jsPDF to save as PDF
-        const doc = new jsPDF();
-        doc.addImage(canvas.toDataURL('image/png'), 'PNG', 10, 10, 180, 180);
-        doc.save('skills-radar-chart.pdf');
-    } else {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL(`image/${saveOption}`);
-        link.download = `skills-radar-chart.${saveOption}`;
-        link.click();
-    }
+    const doc = new jsPDF();
+    doc.addImage(imgData, 'JPEG', 10, 10, 180, 180); // Add chart as image to PDF
+    doc.save('skills_chart.pdf');
 }
+
+document.getElementById('generate-btn').addEventListener('click', generatePDF);
 
 showSkill();
-setInterval(showSkill, 3000); // Show each skill every 3 seconds
+setInterval(showSkill, 2000); // Show each skill every 2 seconds
+
