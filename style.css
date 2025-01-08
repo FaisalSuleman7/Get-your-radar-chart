@@ -14,9 +14,10 @@ body {
     margin-bottom: 10px;
 }
 
-#radar-chart {
+#radar-chart-container {
     width: 500px;
     height: 500px;
+    margin-top: 20px;
 }
 
 button {
@@ -26,4 +27,8 @@ button {
 
 #save-options {
     margin-right: 10px;
+}
+
+#save-options-container {
+    margin-top: 20px;
 }

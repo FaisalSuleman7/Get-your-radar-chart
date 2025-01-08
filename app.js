@@ -79,7 +79,9 @@ function generateSpiderChart() {
             maintainAspectRatio: false
         }
     });
-    document.getElementById('radar-chart').style.display = 'block';
+
+    document.getElementById('radar-chart-container').style.display = 'block';
+    document.getElementById('save-options-container').style.display = 'inline-block'; // Show save options after generating the chart
 }
 
 document.getElementById('save-button').addEventListener('click', () => {
