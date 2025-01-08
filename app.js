@@ -17,80 +17,89 @@ const skills = [
 ];
 
 let currentSkillIndex = 0;
-let skillScores = new Array(skills.length).fill(5); // Default score
+let skillsScores = new Array(skills.length).fill(5); // default score to 5 for each skill
 
+// Display the current skill and description with slider
 function showSkill() {
     if (currentSkillIndex < skills.length) {
         const skill = skills[currentSkillIndex];
-        const skillItem = document.createElement('div');
-        skillItem.classList.add('skill-item');
-        skillItem.innerHTML = `
-            <h3>${skill.skill}</h3>
-            <p>${skill.description}</p>
-            <input type="range" min="1" max="10" value="${skillScores[currentSkillIndex]}" class="slider" id="slider-${currentSkillIndex}" />
-            <span id="score-${currentSkillIndex}">${skillScores[currentSkillIndex]}</span>
-        `;
-        document.getElementById('skills-list').appendChild(skillItem);
-        document.getElementById(`slider-${currentSkillIndex}`).addEventListener('input', (e) => updateSkillScore(e, currentSkillIndex));
-        currentSkillIndex++;
+        document.getElementById('skill-name').innerText = skill.skill;
+        document.getElementById('skill-description').innerText = skill.description;
+        const slider = document.getElementById('skill-slider');
+        slider.value = skillsScores[currentSkillIndex];  // Set slider to the current score
+        document.getElementById('slider-value').innerText = skillsScores[currentSkillIndex]; // Show the score next to slider
+
+        // Show the next button
+        document.getElementById('next-btn').style.display = 'inline';
     } else {
-        showRadarChart();
+        document.getElementById('skill-container').style.display = 'none';
+        document.getElementById('radar-chart-container').style.display = 'block';
+        generateRadarChart(); // Show the radar chart once all skills are rated
     }
 }
 
-function updateSkillScore(event, index) {
-    skillScores[index] = parseInt(event.target.value);
-    document.getElementById(`score-${index}`).textContent = skillScores[index];
-    showRadarChart(); // Re-render the radar chart
-}
+// Handle slider change
+document.getElementById('skill-slider').addEventListener('input', (event) => {
+    const sliderValue = event.target.value;
+    document.getElementById('slider-value').innerText = sliderValue;
+    skillsScores[currentSkillIndex] = sliderValue; // Update the score for the current skill
+});
 
-function showRadarChart() {
+// Handle Next button click
+document.getElementById('next-btn').addEventListener('click', () => {
+    currentSkillIndex++;
+    showSkill();
+});
+
+// Generate the radar chart based on the user scores
+function generateRadarChart() {
     const ctx = document.getElementById('radar-chart').getContext('2d');
     const radarData = {
         labels: skills.map(skill => skill.skill),
         datasets: [{
             label: 'Skills Proficiency',
-            data: skillScores,
+            data: skillsScores,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
         }]
     };
-    
-    if (window.radarChart) {
-        window.radarChart.data = radarData;
-        window.radarChart.update(); // Update the chart smoothly
-    } else {
-        window.radarChart = new Chart(ctx, {
-            type: 'radar',
-            data: radarData,
-            options: {
-                scale: {
-                    ticks: {
-                        beginAtZero: true,
-                        max: 10
-                    }
+
+    const radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: radarData,
+        options: {
+            scale: {
+                ticks: {
+                    beginAtZero: true,
+                    max: 10
                 }
             }
-        });
-    }
-}
-
-function downloadImage() {
-    html2canvas(document.getElementById('radar-chart')).then((canvas) => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = 'radar-chart.png';
-        link.click();
+        }
     });
+
+    // Show download buttons after chart is generated
+    document.getElementById('download-btn').style.display = 'inline';
+    document.getElementById('download-pdf-btn').style.display = 'inline';
 }
 
-function downloadPDF() {
-    const element = document.getElementById('radar-chart');
-    html2pdf().from(element).save();
-}
+// Save as PNG
+document.getElementById('download-btn').addEventListener('click', () => {
+    const canvas = document.getElementById('radar-chart');
+    const imageUrl = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'skills-radar-chart.png';
+    link.click();
+});
 
-document.getElementById('download-btn').addEventListener('click', downloadImage);
-document.getElementById('download-pdf-btn').addEventListener('click', downloadPDF);
+// Save as PDF
+document.getElementById('download-pdf-btn').addEventListener('click', () => {
+    const canvas = document.getElementById('radar-chart');
+    const imgData = canvas.toDataURL('image/png');
+    const doc = new jsPDF();
+    doc.addImage(imgData, 'PNG', 10, 10);
+    doc.save('skills-radar-chart.pdf');
+});
 
-showSkill();
+showSkill(); // Initial call to show the first skill
