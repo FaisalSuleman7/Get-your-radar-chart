@@ -3,39 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skills Radar</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
+    <title>Font Loader Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Skills Radar</h1>
-    </header>
-    <main>
-        <section id="skills">
-            <h2>Life-Changing Skills Everyone Must Learn</h2>
+        <h1>Font Loader Website</h1>
+        <nav>
             <ul>
-                <li>Effective Communication</li>
-                <li>Financial Literacy</li>
-                <li>Time Management</li>
-                <li>Critical Thinking</li>
-                <li>Emotional Regulation</li>
-                <li>Conflict Resolution</li>
-                <li>Basic First Aid</li>
-                <li>Self-Defense</li>
-                <li>Basic Cooking</li>
-                <li>Digital Literacy</li>
-                <li>Networking</li>
-                <li>Gardening or Growing Plants</li>
-                <li>Household Repairs</li>
-                <li>Sewing or Basic Clothing Repairs</li>
-                <li>Driving or Navigating</li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#settings">Font Settings</a></li>
+                <li><a href="#about">About</a></li>
             </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>Welcome to the Font Loader Website!</h2>
+            <p>This is a dynamic font loading website. You can manage and load custom fonts below.</p>
         </section>
-        <section id="radarChart">
-            <canvas id="radarChartCanvas"></canvas> <!-- The canvas for the radar chart -->
+
+        <section id="settings">
+            <h2>Manage Fonts</h2>
+            <form id="fontForm">
+                <label for="fontFamily">Choose a font:</label>
+                <select id="fontFamily" name="fontFamily">
+                    <option value="Roboto">Roboto</option>
+                    <option value="Open Sans">Open Sans</option>
+                    <option value="Lato">Lato</option>
+                    <option value="MyCustomFont">MyCustomFont (Custom URL)</option>
+                </select>
+                <button type="submit">Load Font</button>
+            </form>
+        </section>
+
+        <section id="about">
+            <h2>About This Website</h2>
+            <p>This website allows you to load and test custom fonts dynamically. You can choose from a selection of Google Fonts or input a custom URL for any font of your choice.</p>
+        </section>
+
+        <section id="sampleText">
+            <h2>Sample Text</h2>
+            <p id="sampleParagraph">This is a sample text to show the loaded font.</p>
         </section>
     </main>
-    <script src="app.js"></script> <!-- Link to external JavaScript -->
+
+    <footer>
+        <p>&copy; 2025 Font Loader Website. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>

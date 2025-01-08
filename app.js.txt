@@ -1,50 +1,30 @@
-window.onload = function() {
-    const ctx = document.getElementById('radarChartCanvas').getContext('2d');
+// JavaScript to handle dynamic font loading
 
-    const skillData = {
-        labels: [
-            'Effective Communication',
-            'Financial Literacy',
-            'Time Management',
-            'Critical Thinking',
-            'Emotional Regulation',
-            'Conflict Resolution',
-            'Basic First Aid',
-            'Self-Defense',
-            'Basic Cooking',
-            'Digital Literacy',
-            'Networking',
-            'Gardening or Growing Plants',
-            'Household Repairs',
-            'Sewing or Basic Clothing Repairs',
-            'Driving or Navigating'
-        ],
-        datasets: [{
-            label: 'Skill Proficiency',
-            data: [
-                7, 8, 6, 8, 9, 7, 5, 6, 6, 9, 7, 6, 5, 4, 8
-            ],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    };
-
-    const radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: skillData,
-        options: {
-            scales: {
-                r: {
-                    min: 0,
-                    max: 10
+document.addEventListener('DOMContentLoaded', function () {
+    const fontForm = document.getElementById('fontForm');
+    const sampleParagraph = document.getElementById('sampleParagraph');
+    
+    fontForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        
+        const selectedFont = document.getElementById('fontFamily').value;
+        
+        if (selectedFont === 'MyCustomFont') {
+            const customFontURL = prompt("Enter the custom font CSS URL:");
+            WebFont.load({
+                custom: {
+                    families: ['MyCustomFont'],
+                    urls: [customFontURL]
                 }
-            },
-            elements: {
-                line: {
-                    tension: 0.3
+            });
+            sampleParagraph.style.fontFamily = 'MyCustomFont, sans-serif';
+        } else {
+            WebFont.load({
+                google: {
+                    families: [selectedFont]
                 }
-            }
+            });
+            sampleParagraph.style.fontFamily = selectedFont;
         }
     });
-};
+});
