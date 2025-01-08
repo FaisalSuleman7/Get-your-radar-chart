@@ -1,39 +1,141 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
 }
 
+/* Container for skills and sliders */
 #skills-list {
-    margin-top: 20px;
+    margin-top: 30px;
+    text-align: left;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Skill items (each skill) */
 .skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-button {
-    padding: 10px;
+.skill-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.skill-item p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.skill-item input[type="range"] {
+    width: 80%;
+    margin-bottom: 10px;
+    background-color: #ddd;
+    border-radius: 10px;
+    height: 6px;
+}
+
+.skill-item input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #ccc;
+}
+
+.skill-item input[type="range"]::-webkit-slider-thumb {
+    background-color: #4CAF50;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.skill-item span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Radar chart container */
+#chart-container {
+    margin-top: 40px;
+    max-width: 500px;
+    margin: 50px auto;
+}
+
+/* Save options container */
+#save-options {
+    margin-top: 30px;
+    display: none;
+    text-align: center;
+}
+
+#save-options label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#save-options select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#save-options button {
+    margin-top: 20px;
+    padding: 12px 25px;
     background-color: #4CAF50;
     color: white;
     border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
-button:hover {
+#save-options button:hover {
     background-color: #45a049;
 }
 
-#chart-container {
-    margin-top: 50px;
-}
+/* Styling for page layout */
+@media (max-width: 768px) {
+    #skills-list {
+        padding: 15px;
+    }
 
-#save-options {
-    margin-top: 20px;
-}
+    .skill-item {
+        padding: 10px;
+    }
 
-#save-format {
-    margin-right: 10px;
+    .skill-item input[type="range"] {
+        width: 90%;
+    }
+
+    #chart-container {
+        width: 90%;
+    }
+
+    #save-options {
+        width: 90%;
+    }
 }
